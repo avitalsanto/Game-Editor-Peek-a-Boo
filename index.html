@@ -542,16 +542,32 @@ function handleUpload(e,cb){
 
 function shareGame(){
   saveTexts();
-  const shareData={skin:STATE.skin,difficulty:STATE.difficulty,texts:STATE.texts,assets:{cat:STATE.assets.cat,dogs:STATE.assets.dogs.filter(d=>d)}};
+  const assets={};
+  if(STATE.assets.cat!==DEFAULT_CAT)assets.cat=STATE.assets.cat;
+  const customDogs=STATE.assets.dogs.map((d,i)=>{
+    const defaults=[DEFAULT_DOG,DEFAULT_DOG2,DEFAULT_DOG3];
+    return d&&d!==defaults[i]?d:'';
+  });
+  if(customDogs.some(d=>d))assets.dogs=customDogs;
+  const shareData={s:STATE.skin,d:STATE.difficulty,t:STATE.texts};
+  if(Object.keys(assets).length)shareData.a=assets;
   const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(shareData))));
-  const url=location.origin+location.pathname+'#g='+encoded;
-  if(navigator.share){
-    navigator.share({title:STATE.texts.startTitle,text:STATE.texts.startBody,url}).catch(()=>{});
-  } else {
-    navigator.clipboard.writeText(url).then(()=>showToast('הלינק הועתק')).catch(()=>{
-      const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showToast('הלינק הועתק');
-    });
-  }
+  const base=window.location.href.split('#')[0];
+  const url=base+'#g='+encoded;
+  copyToClipboard(url);
+}
+
+function copyToClipboard(url){
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(url).then(()=>showToast('הלינק הועתק!')).catch(()=>fallbackCopy(url));
+  }else{fallbackCopy(url)}
+}
+
+function fallbackCopy(url){
+  const ta=document.createElement('textarea');ta.value=url;ta.style.cssText='position:fixed;top:-9999px;opacity:0';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand('copy');showToast('הלינק הועתק!')}catch(e){showToast('לא הצלחנו להעתיק')}
+  ta.remove();
 }
 
 function showToast(msg){
@@ -565,12 +581,19 @@ function loadFromHash(){
   const h=location.hash;if(!h||!h.startsWith('#g='))return false;
   try{
     const json=JSON.parse(decodeURIComponent(escape(atob(h.slice(3)))));
-    if(json.skin)STATE.skin=json.skin;
-    if(json.difficulty)STATE.difficulty=json.difficulty;
-    if(json.texts)Object.assign(STATE.texts,json.texts);
-    if(json.assets){
-      if(json.assets.cat)STATE.assets.cat=json.assets.cat;
-      if(json.assets.dogs)STATE.assets.dogs=json.assets.dogs;
+    const skin=json.s||json.skin;
+    const diff=json.d||json.difficulty;
+    const texts=json.t||json.texts;
+    const assets=json.a||json.assets;
+    if(skin)STATE.skin=skin;
+    if(diff)STATE.difficulty=diff;
+    if(texts)Object.assign(STATE.texts,texts);
+    if(assets){
+      if(assets.cat)STATE.assets.cat=assets.cat;
+      if(assets.dogs){
+        const defaults=[DEFAULT_DOG,DEFAULT_DOG2,DEFAULT_DOG3];
+        STATE.assets.dogs=assets.dogs.map((d,i)=>d||defaults[i]);
+      }
     }
     STATE.mode='game';
     return true;
@@ -618,7 +641,8 @@ function computeGrid(){
   else if(skin==='eye'){winW=isMobile?72:110;winH=winW;gapX=Math.round(winW*.25);gapY=Math.round(winH*.25)}
   let cols=Math.max(minCols,Math.floor((availW+gapX)/(winW+gapX)));
   if(skin==='museum'&&isMobile)cols=Math.min(cols,3);
-  const rows=Math.max(skin==='iphone'?1:2,Math.floor((availH+gapY)/(winH+gapY)));
+  let rows=Math.max(skin==='iphone'?1:2,Math.floor((availH+gapY)/(winH+gapY)));
+  if(skin==='museum'&&isMobile)rows=Math.max(2,rows-1);
   return{cols,rows,winW,winH,gapX,gapY};
 }
 
