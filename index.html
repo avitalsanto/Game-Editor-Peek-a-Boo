@@ -277,7 +277,7 @@ body[data-skin="tv"] .facade::after{content:'';position:absolute;inset:0;pointer
 .tv-antenna::before,.tv-antenna::after{content:'';position:absolute;bottom:0;width:1.5px;height:9px;background:linear-gradient(to top,#888,#aaa);border-radius:1px 1px 0 0;opacity:.6}
 .tv-antenna::before{left:20%;transform:rotate(-18deg);transform-origin:bottom center}
 .tv-antenna::after{right:20%;transform:rotate(18deg);transform-origin:bottom center}
-.tv-bezel{position:absolute;top:8%;left:5%;right:28%;bottom:16%;background:#0a0a0a;border-radius:10px;z-index:2;box-shadow:inset 0 3px 12px rgba(0,0,0,.8),inset 0 -2px 6px rgba(0,0,0,.5),0 0 0 2px rgba(40,28,18,.8);overflow:hidden}
+.tv-bezel{position:absolute;top:8%;left:5%;right:28%;bottom:10%;background:#0a0a0a;border-radius:10px;z-index:2;box-shadow:inset 0 3px 12px rgba(0,0,0,.8),inset 0 -2px 6px rgba(0,0,0,.5),0 0 0 2px rgba(40,28,18,.8);overflow:hidden}
 .tv-screen{position:absolute;inset:4px;border-radius:7px;background:radial-gradient(ellipse at 48% 45%,#1a1e22,#111418,#0a0c10);overflow:hidden;z-index:1;transition:background .35s}
 .tv.lit .tv-screen{background:radial-gradient(ellipse at 48% 45%,var(--tv-color),color-mix(in srgb,var(--tv-color),#000 40%));animation:reception-glitch .55s ease-out}
 @keyframes reception-glitch{0%{transform:translateX(0) skewX(0);filter:brightness(.1)}4%{transform:translateX(-8px) skewX(-2.5deg);filter:saturate(4) hue-rotate(35deg) brightness(1.6)}8%{transform:translateX(6px) skewX(2deg);filter:saturate(.1) brightness(.3)}13%{transform:translateX(-5px) skewX(-1.5deg);filter:hue-rotate(-30deg) brightness(1.5)}18%{transform:translateX(4px) skewX(1deg);filter:saturate(2.5) brightness(.7)}32%{transform:translateX(1px) skewX(0);filter:brightness(1.1)}42%,100%{transform:translateX(0) skewX(0);filter:none}}
@@ -290,7 +290,7 @@ body[data-skin="tv"] .facade::after{content:'';position:absolute;inset:0;pointer
 .tv.lit .color-tint{opacity:.1}
 .tv .inner-glow{position:absolute;inset:0;z-index:5;border-radius:7px;opacity:0;transition:opacity .35s;background:radial-gradient(ellipse at 45% 35%,rgba(255,255,255,.06) 0%,transparent 55%);pointer-events:none}
 .tv.lit .inner-glow{opacity:1}
-.tv-controls{position:absolute;top:8%;right:3%;bottom:16%;width:19%;z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10%}
+.tv-controls{position:absolute;top:8%;right:3%;bottom:10%;width:19%;z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10%}
 .tv-knob{width:55%;aspect-ratio:1;border-radius:50%;background:conic-gradient(from 150deg,#888,#aaa,#777,#999,#888);box-shadow:0 2px 4px rgba(0,0,0,.4),inset 0 1px 2px rgba(255,255,255,.2);position:relative;flex-shrink:0}
 .tv-knob::after{content:'';position:absolute;width:2px;height:35%;top:10%;left:50%;transform:translateX(-50%) rotate(30deg);background:#555;border-radius:2px}
 .tv-knob:nth-child(2){width:42%}
@@ -570,7 +570,7 @@ function computeGrid(){
   let winW,winH,gapX,gapY,minCols=2;
   if(skin==='building'){winW=isMobile?70:120;winH=Math.round(winW*1.3);gapX=Math.round(winW*.6);gapY=Math.round(winH*.5);minCols=3}
   else if(skin==='washing'){winW=isMobile?80:132;winH=Math.round(winW*1.25);gapX=Math.round(winW*.16);gapY=Math.round(winH*.12)}
-  else if(skin==='museum'){winW=isMobile?42:132;winH=Math.round(winW*1.33);gapX=Math.round(winW*(isMobile?1.0:.55));gapY=Math.round(winH*(isMobile?.65:.4))}
+  else if(skin==='museum'){winW=isMobile?48:132;winH=Math.round(winW*1.33);gapX=Math.round(winW*(isMobile?.9:.55));gapY=Math.round(winH*(isMobile?.8:.4))}
   else if(skin==='tv'){winW=isMobile?78:168;winH=Math.round(winW*.8);gapX=Math.round(winW*(isMobile?.3:.18));gapY=Math.round(winH*(isMobile?.35:.25))}
   else if(skin==='iphone'){winW=isMobile?62:96;winH=Math.round(winW*2.1);gapX=Math.round(winW*.22);gapY=Math.round(winH*.08)}
   else if(skin==='eye'){winW=isMobile?72:110;winH=winW;gapX=Math.round(winW*.25);gapY=Math.round(winH*.25)}
