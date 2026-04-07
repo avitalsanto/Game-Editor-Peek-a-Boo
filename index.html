@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,sans-serif;user-select:none;-webkit-user-select:none;background:#0e0e16;color:#e0e0f0}
 body{overflow-y:auto}
-html.mode-game,html.mode-game body{overflow:hidden}
+html.mode-game,html.mode-game body{overflow:hidden;position:fixed;width:100%;height:100%}
 a,button,input,textarea{-webkit-tap-highlight-color:transparent}
 
 /* ═══ WELCOME ═══ */
@@ -26,9 +26,13 @@ a,button,input,textarea{-webkit-tap-highlight-color:transparent}
 .w-btn-edit:hover{background:rgba(255,255,255,.09);transform:scale(1.02)}
 
 /* ═══ EDITOR ═══ */
-#editorScreen{min-height:100vh;min-height:100dvh;padding:0 clamp(14px,4vw,56px) clamp(24px,4vmin,40px);background:#0b0b15;display:none;max-width:1400px;margin:0 auto}
-.editor-header{text-align:center;padding:clamp(20px,3.5vmin,36px) 0 clamp(16px,2.5vmin,24px)}
-.editor-header h2{font-size:clamp(20px,3.5vmin,28px);color:#e8e4f8;margin-bottom:4px;font-weight:800}
+#editorScreen{min-height:100dvh;padding:0 clamp(14px,4vw,56px) clamp(24px,4vmin,40px);background:#0b0b15;display:none;max-width:1400px;margin:0 auto;padding-top:60px}
+.editor-topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:10px clamp(14px,4vw,56px);background:rgba(11,11,21,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.04)}
+.editor-topbar h2{font-size:clamp(14px,2vmin,18px);color:#e8e4f8;font-weight:700;margin:0}
+.editor-topbar-actions{display:flex;gap:8px}
+.editor-topbar .e-btn{padding:8px 18px;font-size:clamp(12px,1.5vmin,14px);min-height:36px;border-radius:8px}
+.editor-topbar .e-btn-start{padding:8px 22px}
+.editor-header{text-align:center;padding:clamp(8px,1.5vmin,16px) 0 clamp(10px,1.5vmin,16px)}
 .editor-header p{font-size:clamp(12px,1.5vmin,14px);color:#5a5e74}
 .editor-body{display:flex;flex-direction:column;gap:0}
 @media(min-width:720px){.editor-body{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(20px,3vw,40px)}.editor-body .sec-skin{grid-column:1/3}.editor-body .sec-assets{grid-column:1;grid-row:2}.editor-body .sec-texts{grid-column:2;grid-row:2}.editor-body .sec-difficulty{grid-column:1/3}.editor-body .sec-actions{grid-column:1/3}}
@@ -46,8 +50,11 @@ a,button,input,textarea{-webkit-tap-highlight-color:transparent}
 .asset-item{min-width:0}
 .asset-item label{display:block;font-size:clamp(11px,1.4vmin,13px);color:#7a7e94;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .asset-preview{width:100%;aspect-ratio:1;border-radius:10px;object-fit:cover;background:#12121e;margin-bottom:6px;border:1px solid rgba(255,255,255,.05)}
-.upload-btn{display:flex;align-items:center;justify-content:center;width:100%;padding:8px 6px;font-size:13px;border:1px dashed rgba(255,255,255,.1);background:rgba(255,255,255,.02);border-radius:8px;color:#6a6e84;cursor:pointer;text-align:center;min-height:40px;font-family:inherit;transition:background .2s}
+.asset-btns{display:flex;gap:6px}
+.upload-btn{display:flex;align-items:center;justify-content:center;flex:1;padding:8px 6px;font-size:13px;border:1px dashed rgba(255,255,255,.1);background:rgba(255,255,255,.02);border-radius:8px;color:#6a6e84;cursor:pointer;text-align:center;min-height:40px;font-family:inherit;transition:background .2s}
 .upload-btn:hover{background:rgba(255,255,255,.06)}
+.del-btn{padding:8px 10px;font-size:12px;border:1px solid rgba(255,80,80,.15);background:rgba(255,60,60,.06);border-radius:8px;color:#e06060;cursor:pointer;font-family:inherit;min-height:40px;transition:background .2s}
+.del-btn:hover{background:rgba(255,60,60,.15)}
 input[type="file"]{display:none}
 .field-group{margin-bottom:12px}
 .field-group:last-child{margin-bottom:0}
@@ -59,9 +66,7 @@ input[type="file"]{display:none}
 .diff-btn{flex:1;padding:10px 8px;font-size:clamp(12px,1.5vmin,14px);border:2px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:#7a7e94;border-radius:10px;cursor:pointer;font-family:inherit;font-weight:600;transition:all .2s;min-height:44px;display:flex;align-items:center;justify-content:center}
 .diff-btn:hover{background:rgba(255,255,255,.07)}
 .diff-btn.active{border-color:#7c3aed;background:rgba(124,58,237,.1);color:#c4b5fd}
-.sec-actions{margin-bottom:0}
-.editor-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:clamp(4px,1vmin,10px);padding-bottom:clamp(20px,3vmin,36px)}
-@media(min-width:720px){.editor-actions{max-width:500px;margin:0 auto}}
+.sec-actions{display:none}
 .e-btn{padding:14px 16px;font-size:clamp(14px,1.6vmin,16px);border:none;border-radius:12px;cursor:pointer;font-weight:700;font-family:inherit;min-height:50px;transition:transform .15s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:6px}
 .e-btn:active{transform:scale(.96)}
 .e-btn-start{background:#7c3aed;color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.25)}
@@ -93,7 +98,7 @@ input[type="file"]{display:none}
 .game-btn{margin-top:8px;padding:13px 38px;font-size:clamp(15px,2.6vmin,21px);color:#fff;border:none;border-radius:12px;cursor:pointer;font-weight:bold;transition:transform .15s,background .2s;pointer-events:auto;font-family:inherit;background:#7c3aed;position:relative;z-index:5}
 .game-btn:hover{transform:scale(1.05)}
 .game-btn:active{transform:scale(.97)}
-.facade{width:100vw;height:100vh;height:100dvh;position:relative;display:grid;justify-content:center;align-content:center;overflow:hidden}
+.facade{position:fixed;top:0;left:0;right:0;bottom:0;display:grid;justify-content:center;align-content:center;overflow:hidden}
 .float-score{position:fixed;z-index:300;font-weight:bold;font-size:clamp(18px,4vmin,32px);pointer-events:none;animation:float-up .8s ease-out forwards;text-shadow:0 0 8px currentColor}
 .float-score.good{color:#4ae068}
 .float-score.bad{color:#ff5555}
@@ -431,7 +436,7 @@ const STATE = {
   mode: 'welcome',
   skin: 'building',
   difficulty: 'medium',
-  assets: { cat: DEFAULT_CAT, dogs: [DEFAULT_DOG] },
+  assets: { cat: DEFAULT_CAT, dogs: [DEFAULT_DOG, DEFAULT_DOG, DEFAULT_DOG] },
   texts: {
     startTitle: 'מי מציץ!',
     startBody: 'מצא את מי שמציץ כמה שיותר מהר!\nאבל היזהר מהמלכודות — לחיצה על הלא נכון = פסילה!',
@@ -493,15 +498,16 @@ function renderEditor(){
   for(let i=0;i<3;i++){
     const src=STATE.assets.dogs[i]||'';
     const hasImg=!!src;
-    dogSlots+=`<div class="asset-item"><label>שלילית ${i+1}</label>${hasImg?`<img class="asset-preview" src="${src}"/>`:`<div class="asset-preview"></div>`}<label class="upload-btn" for="dogFile${i}">${hasImg?'החלף':'העלה'}</label><input type="file" id="dogFile${i}" accept="image/*" data-dog="${i}"/></div>`;
+    dogSlots+=`<div class="asset-item"><label>שלילית ${i+1}</label>${hasImg?`<img class="asset-preview" src="${src}"/>`:`<div class="asset-preview"></div>`}<div class="asset-btns"><label class="upload-btn" for="dogFile${i}">${hasImg?'החלף':'העלה'}</label>${hasImg&&i>0?`<button class="del-btn" data-del-dog="${i}">מחק</button>`:''}</div><input type="file" id="dogFile${i}" accept="image/*" data-dog="${i}"/></div>`;
   }
-  return `<div id="editorScreen" style="display:block"><div class="editor-header"><h2>עורך המשחק</h2><p>התאם את המשחק שלך</p></div>
+  return `<div id="editorScreen" style="display:block">
+<div class="editor-topbar"><h2>עורך המשחק</h2><div class="editor-topbar-actions"><button class="e-btn e-btn-back" id="edBackBtn">חזרה</button><button class="e-btn e-btn-start" id="edStartBtn">התחל משחק</button></div></div>
+<div class="editor-header"><p>התאם את המשחק שלך</p></div>
 <div class="editor-body">
 <div class="editor-section sec-skin"><h3>עיצוב</h3><div class="skin-grid">${skinCards}</div></div>
 <div class="editor-section sec-assets"><h3>תמונות</h3><div class="asset-grid"><div class="asset-item"><label>חיובית</label><img class="asset-preview" src="${catPrev}"/><label class="upload-btn" for="catFile">החלף</label><input type="file" id="catFile" accept="image/*"/></div>${dogSlots}</div></div>
 <div class="editor-section sec-texts"><h3>טקסטים</h3><div class="field-group"><label class="field-label">כותרת פתיחה</label><input class="text-field" id="txtTitle" placeholder="למשל: מי מציץ!" value="${STATE.texts.startTitle}"/></div><div class="field-group"><label class="field-label">תיאור</label><textarea class="text-field" id="txtBody" rows="4" placeholder="הסבר קצר על המשחק">${STATE.texts.startBody}</textarea></div><div class="field-group"><label class="field-label">הודעת הצלחה (תפס הכל)</label><input class="text-field" id="txtWin" placeholder="למשל: דיוק מטורף!!!" value="${STATE.texts.winMsg}"/></div><div class="field-group"><label class="field-label">הודעת כישלון (פספס תמונה)</label><input class="text-field" id="txtFail" placeholder="למשל: צריך לתרגל עוד קצת..." value="${STATE.texts.failMsg}"/></div><div class="field-group"><label class="field-label">הודעת פסילה (לחץ על שלילית)</label><input class="text-field" id="txtLose" placeholder="למשל: לחצת על הלא נכון!" value="${STATE.texts.loseMsg}"/></div></div>
 <div class="editor-section sec-difficulty"><h3>רמת קושי</h3><div class="diff-group"><button class="diff-btn ${STATE.difficulty==='easy'?'active':''}" data-diff="easy">קל</button><button class="diff-btn ${STATE.difficulty==='medium'?'active':''}" data-diff="medium">בינוני</button><button class="diff-btn ${STATE.difficulty==='hard'?'active':''}" data-diff="hard">קשה</button></div></div>
-<div class="sec-actions"><div class="editor-actions"><button class="e-btn e-btn-back" id="edBackBtn">חזרה</button><button class="e-btn e-btn-start" id="edStartBtn">התחל משחק</button></div></div>
 </div></div>`;
 }
 
@@ -509,6 +515,7 @@ function bindEditor(){
   document.querySelectorAll('.skin-card').forEach(c=>c.onclick=()=>{STATE.skin=c.dataset.skin;render()});
   document.getElementById('catFile').onchange=e=>handleUpload(e,url=>{STATE.assets.cat=url;render()});
   document.querySelectorAll('[data-dog]').forEach(inp=>inp.onchange=e=>handleUpload(e,url=>{const i=parseInt(inp.dataset.dog);while(STATE.assets.dogs.length<=i)STATE.assets.dogs.push('');STATE.assets.dogs[i]=url;render()}));
+  document.querySelectorAll('[data-del-dog]').forEach(b=>b.onclick=()=>{const i=parseInt(b.dataset.delDog);STATE.assets.dogs[i]='';render()});
   document.querySelectorAll('.diff-btn').forEach(b=>b.onclick=()=>{saveTexts();STATE.difficulty=b.dataset.diff;render()});
   document.getElementById('edBackBtn').onclick=()=>{saveTexts();STATE.mode='welcome';render()};
   document.getElementById('edStartBtn').onclick=()=>{saveTexts();STATE.mode='game';render()};
@@ -551,21 +558,20 @@ function stopGame(){gameRunning=false;clearInterval(tickInterval);tickInterval=n
 
 function computeGrid(){
   const facade=document.getElementById('facade');
+  const rect=facade.getBoundingClientRect();
   const style=getComputedStyle(facade);
   const padX=parseInt(style.paddingLeft)||20;
   const padTop=parseInt(style.paddingTop)||56;
   const padBot=parseInt(style.paddingBottom)||16;
-  const vpW=window.visualViewport?window.visualViewport.width:window.innerWidth;
-  const vpH=window.visualViewport?window.visualViewport.height:window.innerHeight;
-  const availW=vpW-padX*2;
-  const availH=vpH-padTop-padBot;
-  const isMobile=vpW<500;
+  const availW=rect.width-padX*2;
+  const availH=rect.height-padTop-padBot;
+  const isMobile=rect.width<500;
   const skin=STATE.skin;
   let winW,winH,gapX,gapY,minCols=2;
   if(skin==='building'){winW=isMobile?70:120;winH=Math.round(winW*1.3);gapX=Math.round(winW*.6);gapY=Math.round(winH*.5);minCols=3}
   else if(skin==='washing'){winW=isMobile?80:132;winH=Math.round(winW*1.25);gapX=Math.round(winW*.16);gapY=Math.round(winH*.12)}
-  else if(skin==='museum'){winW=isMobile?80:132;winH=Math.round(winW*1.33);gapX=Math.round(winW*.55);gapY=Math.round(winH*.4)}
-  else if(skin==='tv'){winW=isMobile?100:168;winH=Math.round(winW*.8);gapX=Math.round(winW*.18);gapY=Math.round(winH*.25)}
+  else if(skin==='museum'){winW=isMobile?68:132;winH=Math.round(winW*1.33);gapX=Math.round(winW*(isMobile?.6:.55));gapY=Math.round(winH*(isMobile?.45:.4))}
+  else if(skin==='tv'){winW=isMobile?84:168;winH=Math.round(winW*.8);gapX=Math.round(winW*(isMobile?.25:.18));gapY=Math.round(winH*(isMobile?.3:.25))}
   else if(skin==='iphone'){winW=isMobile?62:96;winH=Math.round(winW*2.1);gapX=Math.round(winW*.22);gapY=Math.round(winH*.08)}
   else if(skin==='eye'){winW=isMobile?72:110;winH=winW;gapX=Math.round(winW*.25);gapY=Math.round(winH*.25)}
   const cols=Math.max(minCols,Math.floor((availW+gapX)/(winW+gapX)));
