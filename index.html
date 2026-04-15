@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Peekaboo Editor</title>
+<title>מי שם?</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;user-select:none;-webkit-user-select:none;background:#0e0e16;color:#e0e0f0}
@@ -430,10 +430,10 @@ body[data-skin="eye"] .facade::before{content:'';position:absolute;inset:0;point
 <script>
 window.onerror = function(msg,url,line){alert('Error line '+line+': '+msg)};
 
-const DEFAULT_CAT = 'https://static.wixstatic.com/media/b4f4e1_abe64ef20b284ee6b4f7fad81e35ff09~mv2.jpg';
-const DEFAULT_DOG = 'https://static.wixstatic.com/media/b4f4e1_e5ffad3b90b44024ad2beed91804dac8~mv2.jpg';
-const DEFAULT_DOG2 = 'https://static.wixstatic.com/media/b4f4e1_eef9ea7fc42c4207a169bd9d864a8ed0~mv2.png';
-const DEFAULT_DOG3 = 'https://static.wixstatic.com/media/b4f4e1_1115541aad734962ae2ecbb0e7653b71~mv2.png';
+const DEFAULT_CAT = 'https://static.wixstatic.com/media/b4f4e1_fa89b832cfc64edf8cc9bd6326d8064c~mv2.png';
+const DEFAULT_DOG = 'https://static.wixstatic.com/media/b4f4e1_9d35471da1d5498298f3453c7a2ef4b1~mv2.png';
+const DEFAULT_DOG2 = 'https://static.wixstatic.com/media/b4f4e1_9259a69b7659424d94ba788ef39f23be~mv2.png';
+const DEFAULT_DOG3 = 'https://static.wixstatic.com/media/b4f4e1_4e2ca011dab5401684354bfc6809d450~mv2.png';
 const GAME_DURATION = 45;
 
 const STATE = {
@@ -442,7 +442,7 @@ const STATE = {
   difficulty: 'medium',
   assets: { cat: DEFAULT_CAT, dogs: [DEFAULT_DOG, DEFAULT_DOG2, DEFAULT_DOG3] },
   texts: {
-    startTitle: 'מי מציץ!',
+    startTitle: 'מי שם?',
     startBody: 'מצא את החתול! היזהר מללחוץ על הכלב!',
     winMsg: 'דיוק מטורף!!!',
     loseMsg: 'באסה. אולי בפעם הבאה',
@@ -484,7 +484,7 @@ function render(){
 }
 
 function renderWelcome(){
-  return `<div id="welcomeScreen"><div class="welcome-logo">👀</div><h1>מי מציץ!</h1><p class="sub">מצא את מי שמציץ — בחר עיצוב, התאם תמונות וטקסטים, ושחק!</p><div class="welcome-btns"><button class="w-btn w-btn-edit" id="editBtn">ערוך משחק</button><button class="w-btn w-btn-play" id="quickPlayBtn">שחק עכשיו</button></div></div>`;
+  return `<div id="welcomeScreen"><div class="welcome-logo">👻</div><h1>מי שם?</h1><p class="sub">מצא את מי שמסתתר — בחר עיצוב, התאם תמונות וטקסטים, ושחק!</p><div class="welcome-btns"><button class="w-btn w-btn-edit" id="editBtn">ערוך משחק</button><button class="w-btn w-btn-play" id="quickPlayBtn">שחק עכשיו</button></div></div>`;
 }
 
 function bindWelcome(){
